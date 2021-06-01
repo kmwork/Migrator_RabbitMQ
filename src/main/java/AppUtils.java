@@ -5,7 +5,6 @@ import java.util.Properties;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.junit.platform.commons.util.StringUtils;
 
 @Slf4j
 public class AppUtils {
@@ -18,7 +17,7 @@ public class AppUtils {
     @SneakyThrows
     public static Properties loadProperties(String fileName) {
         String profile = System.getProperty(APP_PROFILE);
-        if (StringUtils.isBlank(profile)) {
+        if (profile == null || profile.isBlank()) {
             log.error("Не указано свойство java options '{}'. Возможные значение: kostya, demo", APP_PROFILE);
             System.exit(-10);
         }
