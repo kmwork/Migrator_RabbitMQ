@@ -14,9 +14,9 @@ public class PublisherConfirms {
     static Connection createConnection() throws Exception {
         ConnectionFactory cf = new ConnectionFactory();
         cf.setHost("localhost");
-        cf.setVirtualHost("vhost_ch");
-        cf.setUsername("for_ch_root");
-        cf.setPassword("1");
+        cf.setVirtualHost("vhost_ch11111111111");
+        cf.setUsername("for_ch_root111111111111");
+        cf.setPassword("1111111111111111");
         return cf.newConnection();
     }
 
@@ -29,7 +29,7 @@ public class PublisherConfirms {
             Channel ch = connection.createChannel();
 
             //String queue = "exchange1";
-            String queue = "itx_ch_gm_queue";
+            String queue = "itx_ch_gm_queue111111111111111";
             Map<String, Object> arguments = new HashMap<>();
             //arguments.put("x-max-length", 209709);
             arguments.put("x-max-length", 1048545);
