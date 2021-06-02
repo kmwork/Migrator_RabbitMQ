@@ -2,21 +2,16 @@ package ru.kac;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.crypto.EncryptedPrivateKeyInfo;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
@@ -28,6 +23,7 @@ import org.apache.commons.io.IOUtils;
 @Slf4j
 public class SslUtils {
 
+    private static final String KEY_PASSWORD = "bunnies";
     public static AppSslContextFactory createSslFactory() throws Exception {
         try {
 //            SSLContext sslContext = SSLContext.getInstance("TLS");
@@ -108,7 +104,7 @@ public class SslUtils {
 
         byte[] certClientBytes = readFileFromPemFile("CERTIFICATE", "/rabbitmq_keys/client_certificate.pem");
         byte[] certServerBytes = readFileFromPemFile("CERTIFICATE", "/rabbitmq_keys/server_certificate.pem");
-        byte[] privateKeyBytes = readFileFromPemFile("ENCRYPTED PRIVATE KEY", "/rabbitmq_keys/client_key.pem");
+        //byte[] privateKeyBytes = readFileFromPemFile("ENCRYPTED PRIVATE KEY", "/rabbitmq_keys/client_key.pem");
         Certificate clientCert = certFactory.generateCertificate(new ByteArrayInputStream(certClientBytes));
         certList.add(clientCert);
 
@@ -116,17 +112,12 @@ public class SslUtils {
         certList.add(serverCert);
 
 
-        EncryptedPrivateKeyInfo pkInfo = new EncryptedPrivateKeyInfo(privateKeyBytes);
-        PBEKeySpec keySpec = new PBEKeySpec("bunnies".toCharArray()); // password
-        SecretKeyFactory pbeKeyFactory = SecretKeyFactory.getInstance(pkInfo.getAlgName());
-        PKCS8EncodedKeySpec encodedKeySpec = pkInfo.getKeySpec(pbeKeyFactory.generateSecret(keySpec));
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PrivateKey privateKey = keyFactory.generatePrivate(encodedKeySpec);
+        PrivateKey privateKey = getPrimaryKey("/rabbitmq_keys/client_key.p12", KEY_PASSWORD);
 
         if (privateKey == null)
             throw new RuntimeException("RSA private key not found in PEM file");
 
-        char[] keyStorePassword = new char[0];
+        char[] keyStorePassword = KEY_PASSWORD.toCharArray();
 
         KeyStore keyStore = KeyStore.getInstance("JKS");
         keyStore.load(null, null);
@@ -141,10 +132,61 @@ public class SslUtils {
 
         TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         tmf.init(keyStore);
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance("RSA");
+        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(keyStore, keyStorePassword);
         SSLContext sslContext = SSLContext.getInstance("TLS");
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), new SecureRandom());
         return sslContext;
     }
+
+
+    private static PrivateKey getPrimaryKey(String pathToPKCS12File, String keyPassword) throws Exception {
+
+//        String encryptionMethod = "AES";
+//        String algNameCipher = "PBKDF2WithHmacSHA1";
+//        EncryptedPrivateKeyInfo encryptPKInfo = new EncryptedPrivateKeyInfo(keyAsBytes);
+//        //Cipher cipher = Cipher.getInstance(encryptPKInfo.getAlgName());
+//        Cipher cipher = Cipher.getInstance("AES");
+//
+//        // Extract salt
+//        int saltLength = CipherUtility.getSaltLengthForAlgorithm(null);
+//        byte[] salt = new byte[saltLength];
+//        System.arraycopy(cipherBytes, 0, salt, 0, saltLength);
+//        byte[] actualCipherBytes = Arrays.copyOfRange(cipherBytes, saltLength, cipherBytes.length);
+//        // Determine necessary key length
+//        int keyLength = CipherUtility.parseKeyLengthFromAlgorithm(algorithm);
+//        // Generate cipher
+//        Cipher cipher = pbecp.getCipher(encryptionMethod, new String(keyPassword.getPassword()), salt, keyLength, false);
+//
+//
+//            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+//        byte[] salt = sr.generateSeed(8);
+//        PBEKeySpec pbeKeySpec = new PBEKeySpec(keyPassword.toCharArray(), salt, salt.length, 2048); // password
+//        //SecretKeyFactory secFac = SecretKeyFactory.getInstance(encryptPKInfo.getAlgName());
+//        SecretKeyFactory secFac = SecretKeyFactory.getInstance(algNameCipher);
+//
+//
+//
+//        Key pbeKey = secFac.generateSecret(pbeKeySpec);
+//        AlgorithmParameters algParams = encryptPKInfo.getAlgParameters();
+//        cipher.init(Cipher.DECRYPT_MODE, pbeKey, algParams);
+//        KeySpec pkcs8KeySpec = encryptPKInfo.getKeySpec(cipher);
+//        KeyFactory kf = KeyFactory.getInstance("RSA");
+//        return kf.generatePrivate(pkcs8KeySpec);
+//    }
+//
+//
+//    public PrivateKey getPrivateKey(String pathToPKCS12File) {
+        try {
+            byte[] keyAsBytes = IOUtils.resourceToByteArray(pathToPKCS12File);
+            KeyStore ks = KeyStore.getInstance("PKCS12");
+            ks.load(new ByteArrayInputStream(keyAsBytes), keyPassword.toCharArray());
+            return (PrivateKey) ks.getKey(ks.aliases().nextElement(), keyPassword.toCharArray());
+        } catch (Exception e) {
+            log.error("[Private:Key] ошибка чтения ");
+            System.exit(-122);
+        }
+        return null;
+    }
+
 }
