@@ -18,4 +18,5 @@
 ``
     класс ru.kac.RegistrationQueueApp читатает из Exchange (и регистрирует его если обменик не создан) 
     класс ru.kac.MqPublisherApp пишет в Exchange (и регистрирует его если обменик не создан)
+    класс ru.kac.DropExchangeApp удаляет Exchange (если есть)
 `` 
