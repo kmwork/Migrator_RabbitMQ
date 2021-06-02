@@ -20,17 +20,24 @@ public class MqUtils {
     @SneakyThrows
     public static Connection createMqConnection() {
         String mqHost = prop.getProperty("mq.host");
+        int mqPort = Integer.valueOf(prop.getProperty("mq.port"));
+        boolean isSSL = Boolean.valueOf(prop.getProperty("mq.isSSL"));
         String mqVirtualHost = prop.getProperty("mq.virtualHost");
         String mqUserName = prop.getProperty("mq.username");
         String mqPassword = prop.getProperty("mq.password");
 
         ConnectionFactory cf = new ConnectionFactory();
         cf.setHost(mqHost);
+        cf.setPort(mqPort);
+        if (isSSL) {
+            SslContextFactory sslContextFactory = SslUtils.createSslFactory();
+            cf.setSslContextFactory(sslContextFactory);
+            cf.useSslProtocol();
+        }
         cf.setVirtualHost(mqVirtualHost);
         cf.setUsername(mqUserName);
         cf.setPassword(mqPassword);
-        SslContextFactory sslContextFactory = SslUtils.createSslFactory();
-        cf.setSslContextFactory(sslContextFactory);
+
         return cf.newConnection();
     }
 

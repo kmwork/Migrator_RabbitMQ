@@ -12,10 +12,8 @@ import java.util.Base64;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.net.ssl.KeyManager;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -23,7 +21,12 @@ import org.apache.commons.io.IOUtils;
 @Slf4j
 public class SslUtils {
 
+    static {
+        System.setProperty("javax.net.debug", "all");
+    }
+
     private static final String KEY_PASSWORD = "bunnies";
+
     public static AppSslContextFactory createSslFactory() throws Exception {
         try {
             SSLContext sslContext = createSslContext();
@@ -33,37 +36,6 @@ public class SslUtils {
         }
     }
 
-    /**
-     * Some useful commands for looking at the client certificate and private key:
-     * keytool -keystore certificate.p12 -list -storetype pkcs12 -v
-     * openssl pkcs12 -info -in certificate.p12
-     */
-    private static KeyManager[] getKeyManager(String keyStoreType, String keyStoreFile, String keyStorePassword) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance(keyStoreType);
-        KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-        keyStore.load(ClassLoader.getSystemClassLoader().getResourceAsStream(keyStoreFile), keyStorePassword.toCharArray());
-        kmf.init(keyStore, keyStorePassword.toCharArray());
-
-        return kmf.getKeyManagers();
-    }
-
-    /**
-     * Depending on what format (pem / cer / p12) you have received the CA in, you will need to use a combination of openssl and keytool
-     * to convert it to JKS format in order to be loaded into the truststore using the method below.
-     * <p>
-     * You could of course use keytool to import this into the JREs TrustStore - my situation mandated I create it on the fly.
-     * <p>
-     * Useful command to look at the CA certificate:
-     * keytool -keystore root_ca.truststore -list -storetype jks -v
-     */
-    private static TrustManager[] getTrustManager(String trustStoreType, String trustStoreFile, String trustStorePassword) throws Exception {
-        KeyStore trustStore = KeyStore.getInstance(trustStoreType);
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        trustStore.load(ClassLoader.getSystemClassLoader().getResourceAsStream(trustStoreFile), trustStorePassword.toCharArray());
-        tmf.init(trustStore);
-
-        return tmf.getTrustManagers();
-    }
 
     private static byte[] readFileFromPemFile(String nameTag, String fileResourceName) throws Exception {
         String pem = IOUtils.resourceToString(fileResourceName, StandardCharsets.UTF_8);
@@ -98,7 +70,6 @@ public class SslUtils {
 
         byte[] certClientBytes = readFileFromPemFile("CERTIFICATE", "/rabbitmq_keys/client_certificate.pem");
         byte[] certServerBytes = readFileFromPemFile("CERTIFICATE", "/rabbitmq_keys/server_certificate.pem");
-        //byte[] privateKeyBytes = readFileFromPemFile("ENCRYPTED PRIVATE KEY", "/rabbitmq_keys/client_key.pem");
         Certificate clientCert = certFactory.generateCertificate(new ByteArrayInputStream(certClientBytes));
         certList.add(clientCert);
 
