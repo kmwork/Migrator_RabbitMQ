@@ -21,7 +21,9 @@ public class MqPublisherApp {
 
     @SneakyThrows
     public static void main(String[] args) {
+        log.info("[MqPublisherApp] start");
         publishMessagesInBatch();
+        log.info("[MqPublisherApp] finish");
     }
 
     @SneakyThrows

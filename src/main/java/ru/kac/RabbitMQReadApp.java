@@ -39,8 +39,10 @@ public class RabbitMQReadApp {
 
     @SneakyThrows
     public static void main(String[] args) {
+        log.info("[RabbitMQReadApp] start");
         RabbitMQReadApp demoApp = new RabbitMQReadApp();
         demoApp.run();
+        log.info("[RabbitMQReadApp] finish");
     }
 
 }
