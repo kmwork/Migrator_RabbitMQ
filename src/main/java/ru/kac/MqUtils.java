@@ -46,4 +46,8 @@ public class MqUtils {
 
         return arguments;
     }
+
+    public static String getOutExchange() {
+        return prop.getProperty("mq.out_exchange");
+    }
 }

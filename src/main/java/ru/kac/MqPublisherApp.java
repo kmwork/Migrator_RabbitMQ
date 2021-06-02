@@ -1,5 +1,6 @@
 package ru.kac;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.ConfirmCallback;
 import com.rabbitmq.client.Connection;
@@ -26,9 +27,11 @@ public class MqPublisherApp {
     @SneakyThrows
     static void publishMessagesInBatch() {
         try (Connection connection = MqUtils.createMqConnection(); Channel ch = connection.createChannel()) {
-            String queue = MqUtils.getQueue();
+
+            ch.exchangeDeclare(MqUtils.getOutExchange(), BuiltinExchangeType.FANOUT);
+            String queueName = MqUtils.getQueue();
             Map<String, Object> arguments = MqUtils.getMqArguments();
-            ch.queueDeclare(queue, true, false, false, arguments);
+            ch.queueDeclare(queueName, true, false, false, arguments);
 
             ch.confirmSelect();
 
@@ -60,7 +63,7 @@ public class MqPublisherApp {
             long start = System.nanoTime();
             for (int i = 0; i < MESSAGE_COUNT; i++) {
                 outstandingConfirms.put(ch.getNextPublishSeqNo(), strJson);
-                ch.basicPublish("", queue, null, strJson.getBytes(StandardCharsets.UTF_8));
+                ch.basicPublish("", queueName, null, strJson.getBytes(StandardCharsets.UTF_8));
             }
 
 

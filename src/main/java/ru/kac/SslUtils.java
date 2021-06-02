@@ -26,12 +26,6 @@ public class SslUtils {
     private static final String KEY_PASSWORD = "bunnies";
     public static AppSslContextFactory createSslFactory() throws Exception {
         try {
-//            SSLContext sslContext = SSLContext.getInstance("TLS");
-//            System.setProperty("javax.net.ssl.trustStore","rabbitmq_keys/ca_certificate.pem");
-//
-//            KeyManager[] keyManager = getKeyManager("pkcs12", "src/main/resources/rabbitmq_keys/client_key.p12", "bunnies");
-//            TrustManager[] trustManager = getTrustManager("jks", "path/to/CA.truststore", "trust_store_password");
-//            sslContext.init(keyManager, trustManager, new SecureRandom());
             SSLContext sslContext = createSslContext();
             return new AppSslContextFactory(sslContext);
         } catch (Exception e) {
@@ -141,42 +135,6 @@ public class SslUtils {
 
 
     private static PrivateKey getPrimaryKey(String pathToPKCS12File, String keyPassword) throws Exception {
-
-//        String encryptionMethod = "AES";
-//        String algNameCipher = "PBKDF2WithHmacSHA1";
-//        EncryptedPrivateKeyInfo encryptPKInfo = new EncryptedPrivateKeyInfo(keyAsBytes);
-//        //Cipher cipher = Cipher.getInstance(encryptPKInfo.getAlgName());
-//        Cipher cipher = Cipher.getInstance("AES");
-//
-//        // Extract salt
-//        int saltLength = CipherUtility.getSaltLengthForAlgorithm(null);
-//        byte[] salt = new byte[saltLength];
-//        System.arraycopy(cipherBytes, 0, salt, 0, saltLength);
-//        byte[] actualCipherBytes = Arrays.copyOfRange(cipherBytes, saltLength, cipherBytes.length);
-//        // Determine necessary key length
-//        int keyLength = CipherUtility.parseKeyLengthFromAlgorithm(algorithm);
-//        // Generate cipher
-//        Cipher cipher = pbecp.getCipher(encryptionMethod, new String(keyPassword.getPassword()), salt, keyLength, false);
-//
-//
-//            SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-//        byte[] salt = sr.generateSeed(8);
-//        PBEKeySpec pbeKeySpec = new PBEKeySpec(keyPassword.toCharArray(), salt, salt.length, 2048); // password
-//        //SecretKeyFactory secFac = SecretKeyFactory.getInstance(encryptPKInfo.getAlgName());
-//        SecretKeyFactory secFac = SecretKeyFactory.getInstance(algNameCipher);
-//
-//
-//
-//        Key pbeKey = secFac.generateSecret(pbeKeySpec);
-//        AlgorithmParameters algParams = encryptPKInfo.getAlgParameters();
-//        cipher.init(Cipher.DECRYPT_MODE, pbeKey, algParams);
-//        KeySpec pkcs8KeySpec = encryptPKInfo.getKeySpec(cipher);
-//        KeyFactory kf = KeyFactory.getInstance("RSA");
-//        return kf.generatePrivate(pkcs8KeySpec);
-//    }
-//
-//
-//    public PrivateKey getPrivateKey(String pathToPKCS12File) {
         try {
             byte[] keyAsBytes = IOUtils.resourceToByteArray(pathToPKCS12File);
             KeyStore ks = KeyStore.getInstance("PKCS12");
