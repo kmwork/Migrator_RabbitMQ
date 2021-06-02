@@ -1,5 +1,6 @@
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.SslContextFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -26,6 +27,8 @@ public class MqUtils {
         cf.setVirtualHost(mqVirtualHost);
         cf.setUsername(mqUserName);
         cf.setPassword(mqPassword);
+        SslContextFactory sslContextFactory = SslUtils.createSslFactory();
+        cf.setSslContextFactory(sslContextFactory);
         return cf.newConnection();
     }
 
