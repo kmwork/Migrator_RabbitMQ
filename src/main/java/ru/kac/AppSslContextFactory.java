@@ -1,3 +1,5 @@
+package ru.kac;
+
 import com.rabbitmq.client.SslContextFactory;
 import javax.net.ssl.SSLContext;
 import lombok.AllArgsConstructor;
