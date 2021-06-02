@@ -2,7 +2,6 @@ package ru.kac;
 
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.SslContextFactory;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -30,9 +29,7 @@ public class MqUtils {
         cf.setHost(mqHost);
         cf.setPort(mqPort);
         if (isSSL) {
-            SslContextFactory sslContextFactory = SslUtils.createSslFactory();
-            cf.setSslContextFactory(sslContextFactory);
-            cf.useSslProtocol();
+            cf.useSslProtocol(SslUtils.createSslContext());
         }
         cf.setVirtualHost(mqVirtualHost);
         cf.setUsername(mqUserName);

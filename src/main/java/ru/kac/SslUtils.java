@@ -21,19 +21,11 @@ import org.apache.commons.io.IOUtils;
 @Slf4j
 public class SslUtils {
 
+    private static final String KEY_PASSWORD = "bunnies";
+    public static final String SSL_PROTOCOL = "TLSv1.2";
+
     static {
         System.setProperty("javax.net.debug", "all");
-    }
-
-    private static final String KEY_PASSWORD = "bunnies";
-
-    public static AppSslContextFactory createSslFactory() throws Exception {
-        try {
-            SSLContext sslContext = createSslContext();
-            return new AppSslContextFactory(sslContext);
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to setup keystore and truststore", e);
-        }
     }
 
 
@@ -63,18 +55,21 @@ public class SslUtils {
         return null;
     }
 
-    private static SSLContext createSslContext() throws Exception {
+    private static void addCert(List<Certificate> certList, String certPath) throws Exception {
+        final byte[] certBytes = readFileFromPemFile("CERTIFICATE", "/rabbitmq_keys/" + certPath);
+        final CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
+        Certificate cert = certFactory.generateCertificate(new ByteArrayInputStream(certBytes));
+        certList.add(cert);
+    }
+
+    public static SSLContext createSslContext() throws Exception {
 
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-        List<Certificate> certList = new ArrayList<>(); // java.security.cert.Certificate
+        List<Certificate> certList = new ArrayList<>();
 
-        byte[] certClientBytes = readFileFromPemFile("CERTIFICATE", "/rabbitmq_keys/client_certificate.pem");
-        byte[] certServerBytes = readFileFromPemFile("CERTIFICATE", "/rabbitmq_keys/server_certificate.pem");
-        Certificate clientCert = certFactory.generateCertificate(new ByteArrayInputStream(certClientBytes));
-        certList.add(clientCert);
-
-        Certificate serverCert = certFactory.generateCertificate(new ByteArrayInputStream(certServerBytes));
-        certList.add(serverCert);
+        addCert(certList, "client_certificate.pem");
+        addCert(certList, "server_certificate.pem");
+        addCert(certList, "ca_certificate.pem");
 
 
         PrivateKey privateKey = getPrimaryKey("/rabbitmq_keys/client_key.p12", KEY_PASSWORD);
@@ -99,8 +94,9 @@ public class SslUtils {
         tmf.init(keyStore);
         KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
         kmf.init(keyStore, keyStorePassword);
-        SSLContext sslContext = SSLContext.getInstance("TLS");
+        SSLContext sslContext = SSLContext.getInstance(SSL_PROTOCOL);
         sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), new SecureRandom());
+
         return sslContext;
     }
 
