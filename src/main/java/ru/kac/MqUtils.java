@@ -13,27 +13,35 @@ public class MqUtils {
 
     private static final Properties prop = AppUtils.loadProperties("rabbitmq.properties");
 
+    static {
+        System.setProperty("javax.net.debug", "all");
+    }
+
     private MqUtils() {
     }
 
     @SneakyThrows
     public static Connection createMqConnection() {
-        String mqHost = prop.getProperty("mq.host");
-        int mqPort = Integer.valueOf(prop.getProperty("mq.port"));
-        boolean isSSL = Boolean.valueOf(prop.getProperty("mq.isSSL"));
-        String mqVirtualHost = prop.getProperty("mq.virtualHost");
-        String mqUserName = prop.getProperty("mq.username");
-        String mqPassword = prop.getProperty("mq.password");
-
         ConnectionFactory cf = new ConnectionFactory();
-        cf.setHost(mqHost);
-        cf.setPort(mqPort);
-        if (isSSL) {
-            cf.useSslProtocol(SslUtils.createSslContext());
+        String mqUrl = prop.getProperty("mq.url");
+        if (mqUrl == null || mqUrl.isBlank()) {
+            String mqHost = prop.getProperty("mq.host");
+            int mqPort = Integer.valueOf(prop.getProperty("mq.port"));
+            boolean isSSL = Boolean.valueOf(prop.getProperty("mq.isSSL"));
+            String mqVirtualHost = prop.getProperty("mq.virtualHost");
+            String mqUserName = prop.getProperty("mq.username");
+            String mqPassword = prop.getProperty("mq.password");
+            cf.setHost(mqHost);
+            cf.setPort(mqPort);
+            if (isSSL) {
+                cf.useSslProtocol(SslUtils.createSslContext());
+            }
+            cf.setVirtualHost(mqVirtualHost);
+            cf.setUsername(mqUserName);
+            cf.setPassword(mqPassword);
+        } else {
+            cf.setUri(mqUrl);
         }
-        cf.setVirtualHost(mqVirtualHost);
-        cf.setUsername(mqUserName);
-        cf.setPassword(mqPassword);
 
         return cf.newConnection();
     }

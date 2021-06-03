@@ -68,7 +68,6 @@ public class SslUtils {
         List<Certificate> certList = new ArrayList<>();
 
         addCert(certList, "client_certificate.pem");
-        addCert(certList, "server_certificate.pem");
         addCert(certList, "ca_certificate.pem");
 
 
