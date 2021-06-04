@@ -20,7 +20,7 @@ public class MqDropVHostApp {
     @SneakyThrows
     public static void run() {
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
-        Client c = ShovelUtils.shovelClient();
+        Client c = RestAccess.mqRestClient();
         c.deleteVhost(mq.getMqVirtualHost());
     }
 }

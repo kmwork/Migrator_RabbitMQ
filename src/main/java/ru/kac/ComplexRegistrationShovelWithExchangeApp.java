@@ -25,7 +25,7 @@ public class ComplexRegistrationShovelWithExchangeApp {
     log.info("[ComplexRegistrationShovelWithExchangeApp] start: new registration");
     MqRegVHostApp.main(args);
     MqRegExchangeApp.main(args);
-    MqRegShovelApp.main(args);
+    MqRegShovelBridgeApp.main(args);
     log.info("[ComplexRegistrationShovelWithExchangeApp] end: new registration");
     /* -----END:REG----- */
 

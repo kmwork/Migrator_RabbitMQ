@@ -13,7 +13,7 @@ public class DeleteShovelApp {
     public static void main(String[] args) {
         log.info("[DeleteShovelApp] **************** start ****************");
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
-        Client c = ShovelUtils.shovelClient();
+        Client c = RestAccess.mqRestClient();
         List<ShovelStatus> status = c.getShovelsStatus(mq.getMqVirtualHost());
         log.info("[DeleteShovelApp] status of shovel = " + status);
         if (status != null && status.size() > 0) {

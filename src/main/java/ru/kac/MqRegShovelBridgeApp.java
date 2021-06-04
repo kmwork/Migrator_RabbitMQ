@@ -9,14 +9,14 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Удаление shovel
+ * Создание shovel
  */
 @Slf4j
-public class MqRegShovelApp {
+public class MqRegShovelBridgeApp {
     public static void main(String[] args) {
         log.info("[MqRegShovelApp] **************** start ****************");
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
-        Client c = ShovelUtils.shovelClient();
+        Client c = RestAccess.mqRestClient();
         List<ShovelStatus> status = c.getShovelsStatus(mq.getMqVirtualHost());
         log.info("[MqRegShovelApp] status of shovel = " + status);
         //if (status.size() == 0) {

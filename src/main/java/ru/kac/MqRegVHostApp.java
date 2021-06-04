@@ -21,10 +21,16 @@ public class MqRegVHostApp {
     @SneakyThrows
     public static void run() {
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
-        Client c = ShovelUtils.shovelClient();
+        Client c = RestAccess.mqRestClient();
         c.createVhost(mq.getMqVirtualHost());
         UserPermissions p = c.getPermissions(mq.getMqVirtualHost(), mq.getMqUserName());
         log.debug("UserPermissions = " + p);
+
+        Client shovel = RestAccess.shovelRestClient();
+        shovel.createVhost(mq.getShovelVirtualHost());
+        UserPermissions shovelPermission = c.getPermissions(mq.getShovelVirtualHost(), mq.getShovelUserName());
+        log.debug("shovelPermission = " + shovelPermission);
+
 
     }
 }

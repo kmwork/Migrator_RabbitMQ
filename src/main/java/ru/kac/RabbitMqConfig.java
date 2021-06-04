@@ -40,6 +40,11 @@ public class RabbitMqConfig {
     @Getter
     private final static RabbitMqConfig instance = new RabbitMqConfig();
 
+    private final String shovelVirtualHost = prop.getProperty("shovel.virtualHost");
+    private final String shovelUserName = prop.getProperty("shovel.username");
+    private final String shovelPassword = prop.getProperty("shovel.password");
+    private final String shovelManagementUrl = prop.getProperty("shovel.management.url");
+
     static {
         System.setProperty("javax.net.debug", "all");
     }

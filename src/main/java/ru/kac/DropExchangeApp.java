@@ -17,7 +17,7 @@ public class DropExchangeApp {
     public static void main(String[] argv) {
         log.info("[DropExchangeApp] start");
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
-        Client c = ShovelUtils.shovelClient();
+        Client c = RestAccess.mqRestClient();
         UserPermissions p = c.getPermissions(mq.getMqVirtualHost(), mq.getMqUserName());
         if (p != null)
             try (Connection connection = mq.createMqConnection(); Channel channel = connection.createChannel()) {
