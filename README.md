@@ -19,4 +19,6 @@
     класс ru.kac.RegistrationQueueApp читатает из Exchange (и регистрирует его если обменик не создан) 
     класс ru.kac.MqPublisherApp пишет в Exchange (и регистрирует его если обменик не создан)
     класс ru.kac.DropExchangeApp удаляет Exchange (если есть)
-`` 
+``
+#shovel 
+## todo https://sleeplessbeastie.eu/2020/04/15/how-to-move-messages-to-different-rabbitmq-node/ 
