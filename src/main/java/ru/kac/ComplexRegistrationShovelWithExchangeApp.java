@@ -18,10 +18,12 @@ public class ComplexRegistrationShovelWithExchangeApp {
     log.info("[ComplexRegistrationShovelWithExchangeApp] start: delete old info");
     DeleteShovelApp.main(args);
     DropExchangeApp.main(args);
+    MqDropVHostApp.main(args);
     log.info("[ComplexRegistrationShovelWithExchangeApp] end: delete old info");
 
     /* ------REG------- */
     log.info("[ComplexRegistrationShovelWithExchangeApp] start: new registration");
+    MqRegVHostApp.main(args);
     MqRegExchangeApp.main(args);
     MqRegShovelApp.main(args);
     log.info("[ComplexRegistrationShovelWithExchangeApp] end: new registration");

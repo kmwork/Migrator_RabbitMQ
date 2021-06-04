@@ -8,7 +8,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Регистрация exchange + queue
+ * Регистрация vhost +exchange + queue
  */
 @Slf4j
 public class MqRegExchangeApp {

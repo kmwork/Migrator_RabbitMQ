@@ -30,6 +30,7 @@ public class MqRegShovelApp {
 
         ShovelDetails exchangeDetails = new ShovelDetails();
         ShovelDetails queueDetails = new ShovelDetails();
+
         exchangeDetails.setAddForwardHeaders(mq.getShovelAddForwardHeaders());
 
         exchangeDetails.setSourceURIs(Collections.singletonList(mq.getShovelSrcUri()));

@@ -16,7 +16,11 @@
 ``
 # запуск
 ``
-    класс ru.kac.RegistrationQueueApp читатает из Exchange (и регистрирует его если обменик не создан) 
+    класс ru.kac.ComplexRegistrationShovelWithExchangeApp -- создает объект для тикетов
+    https://qligent.atlassian.net/browse/ITX2-289
+    и 
+    https://qligent.atlassian.net/browse/ITX2-288
+    
     класс ru.kac.MqPublisherApp пишет в Exchange (и регистрирует его если обменик не создан)
     класс ru.kac.DropExchangeApp удаляет Exchange (если есть)
 ``

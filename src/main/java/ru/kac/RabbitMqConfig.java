@@ -22,6 +22,8 @@ public class RabbitMqConfig {
     private final String mqUserName = prop.getProperty("mq.username");
     private final String mqPassword = prop.getProperty("mq.password");
     private final String mqManagementUrl = prop.getProperty("mq.management.url");
+    private final String outExchange = prop.getProperty("mq.out_exchange");
+    private final Boolean outExchangeDurable = Boolean.valueOf(prop.getProperty("mq.out_exchange.durable"));
 
     private final String shovelSrcUri = prop.getProperty("shovel.src-uri");
     private final String shovelDestUri = prop.getProperty("shovel.dest-uri");
@@ -80,12 +82,5 @@ public class RabbitMqConfig {
         return arguments;
     }
 
-    public String getOutExchange() {
-        return prop.getProperty("mq.out_exchange");
-    }
-
-    public boolean getOutExchangeDurable() {
-        return Boolean.valueOf(prop.getProperty("mq.out_exchange.durable"));
-    }
 
 }
