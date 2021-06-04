@@ -5,6 +5,7 @@ LOCAL_PASSORD="1"
 LOCAL_MQ_HOST="localhost"
 LOCAL_MQ_PORT="5671"
 LOCAL_MQ_QUEUE="itx_ch_gm_queue_shovel"
+LOCAL_MQ_EXCHANE="itx_ch_gm_exchange_shovel"
 
 local_ssl_dir="/home/papa/work_kac/kFly/src/main/resources/rabbitmq_keys"
 local_cacertfile="$local_ssl_dir/ca_certificate.pem"
@@ -27,20 +28,38 @@ EXTERNAL_PASSORD="1"
 EXTERNAL_MQ_HOST="192.168.1.45"
 EXTERNAL_MQ_PORT="5672"
 EXTERNAL_MQ_QUEUE="itx_ch_gm_queue_shovel"
+EXTERNAL_MQ_EXCHANE="itx_ch_gm_exchange_shovel"
 
 
-JSON_VAR='{
-  "src-protocol": "amqp091",
-  "dest-protocol": "amqp091",
-  "ack-mode": "on-confirm",
-  "src-delete-after": "never",
-  "src-uri": "amqps://'$LOCAL_MQ_HOST':'$LOCAL_MQ_PORT'/'$LOCAL_VHOST'?cacertfile='$local_cacertfile'&certfile='$local_certfile'&keyfile='$local_keyfile'&password='$local_password'&'$local_options'",
-  "src-queue": "'"$LOCAL_MQ_QUEUE"'",
-  "dest-uri": "amqp://'$EXTERNAL_USER':'$EXTERNAL_PASSORD'@'$EXTERNAL_MQ_HOST':'$EXTERNAL_MQ_PORT'/'$EXTERNAL_VHOST'",
-  "dest-queue": "'"$EXTERNAL_MQ_QUEUE"'"
-}'
+LOCAL_AMQP_URI="amqps://$LOCAL_MQ_HOST:$LOCAL_MQ_PORT/$LOCAL_VHOST?cacertfile=$local_cacertfile&certfile=$local_certfile&keyfile=$local_keyfile&password=$local_password&$local_options"
+EXTERNAL_AMQP_URI="amqp://$EXTERNAL_USER:$EXTERNAL_PASSORD@$EXTERNAL_MQ_HOST:$EXTERNAL_MQ_PORT/$EXTERNAL_VHOST"
 
-echo "============================================"
-echo "$JSON_VAR"
-echo "============================================"
-sudo rabbitmqctl -p vhost_ch set_parameter shovel proba-kostya-migration-with-ssl "$JSON_VAR"
+JSON_VAR_QUEUE='
+  {
+    "src-protocol": "amqp091",
+    "dest-protocol": "amqp091",
+    "ack-mode": "on-confirm",
+    "src-delete-after": "never",
+    "src-uri": "'$LOCAL_AMQP_URI'",
+    "src-queue": "'$LOCAL_MQ_QUEUE'",
+    "dest-uri": "'$EXTERNAL_AMQP_URI'",
+    "dest-queue": "'$EXTERNAL_MQ_QUEUE'"
+  }'
+JSON_VAR_EXCANGE='{
+    "src-protocol": "amqp091",
+    "dest-protocol": "amqp091",
+    "src-uri": "'$LOCAL_AMQP_URI'",
+    "src-exchange": "'$LOCAL_MQ_EXCHANE'",
+    "src-exchange-key": "",
+    "dest-uri": "'$EXTERNAL_AMQP_URI'",
+    "dest-exchange": "'$EXTERNAL_MQ_EXCHANE'"
+  }'
+
+echo "============================================ JSON_VAR_QUEUE ============================================"
+echo "$JSON_VAR_QUEUE"
+echo "========================================================================================================"
+echo "________________________________________ JSON_VAR_EXCANGE ________________________________________"
+echo "$JSON_VAR_EXCANGE"
+echo "___________________________________________________________________________________________________"
+sudo rabbitmqctl -p vhost_ch set_parameter shovel queue-ssl "$JSON_VAR_QUEUE"
+sudo rabbitmqctl -p vhost_ch set_parameter shovel exchange-ssl "$JSON_VAR_EXCANGE"
