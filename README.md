@@ -24,5 +24,9 @@
     класс ru.kac.MqPublisherApp пишет в Exchange (и регистрирует его если обменик не создан)
     класс ru.kac.DropExchangeApp удаляет Exchange (если есть)
 ``
-#shovel 
+#как настроить руками shovel тут написано 
 ## todo https://sleeplessbeastie.eu/2020/04/15/how-to-move-messages-to-different-rabbitmq-node/ 
+
+## задействован код 2х API 
+## для протокола AMQP API - https://github.com/rabbitmq/rabbitmq-java-client
+## для протокола RESTfull API - https://github.com/rabbitmq/hop
