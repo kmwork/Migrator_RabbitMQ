@@ -3,7 +3,8 @@ LOCAL_VHOST="vhost_ch"
 LOCAL_USER="for_ch_root"
 LOCAL_PASSORD="1"
 LOCAL_MQ_HOST="localhost"
-LOCAL_MQ_PORT="5671"
+#LOCAL_MQ_PORT_WITH_SSL="5671"
+LOCAL_MQ_PORT="5672"
 LOCAL_MQ_QUEUE="itx_ch_gm_queue_shovel"
 LOCAL_MQ_EXCHANE="itx_ch_gm_exchange_shovel"
 
@@ -31,7 +32,8 @@ EXTERNAL_MQ_QUEUE="itx_ch_gm_queue_shovel"
 EXTERNAL_MQ_EXCHANE="itx_ch_gm_exchange_shovel"
 
 
-LOCAL_AMQP_URI="amqps://$LOCAL_MQ_HOST:$LOCAL_MQ_PORT/$LOCAL_VHOST?cacertfile=$local_cacertfile&certfile=$local_certfile&keyfile=$local_keyfile&password=$local_password&$local_options"
+#LOCAL_AMQP_URI_WITH_SSL="amqps://$LOCAL_MQ_HOST:$LOCAL_MQ_PORT_WITH_SSL/$LOCAL_VHOST?cacertfile=$local_cacertfile&certfile=$local_certfile&keyfile=$local_keyfile&password=$local_password&$local_options"
+LOCAL_AMQP_URI="amqp://$LOCAL_USER:$LOCAL_PASSORD@$LOCAL_MQ_HOST:$LOCAL_MQ_PORT/$LOCAL_VHOST"
 EXTERNAL_AMQP_URI="amqp://$EXTERNAL_USER:$EXTERNAL_PASSORD@$EXTERNAL_MQ_HOST:$EXTERNAL_MQ_PORT/$EXTERNAL_VHOST"
 
 JSON_VAR_QUEUE='
@@ -61,5 +63,5 @@ echo "==========================================================================
 echo "________________________________________ JSON_VAR_EXCANGE ________________________________________"
 echo "$JSON_VAR_EXCANGE"
 echo "___________________________________________________________________________________________________"
-sudo rabbitmqctl -p vhost_ch set_parameter shovel queue-ssl "$JSON_VAR_QUEUE"
-sudo rabbitmqctl -p vhost_ch set_parameter shovel exchange-ssl "$JSON_VAR_EXCANGE"
+sudo rabbitmqctl -p vhost_ch set_parameter shovel queue-simple "$JSON_VAR_QUEUE"
+##sudo rabbitmqctl -p vhost_ch set_parameter shovel exchange-simple "$JSON_VAR_EXCANGE"
