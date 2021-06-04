@@ -13,21 +13,20 @@ import java.util.function.BooleanSupplier;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Отправка тестового json в очередь
+ */
 @Slf4j
-public class MqPublisherApp {
+public class MqMessageSendTester {
 
-    static final int MESSAGE_COUNT = 10;
-
-
+    /**
+     * Отправить сообщения в очерень
+     *
+     * @param messageCount количество сообщениц
+     * @param fileJsonName файл json из ресурсов
+     */
     @SneakyThrows
-    public static void main(String[] args) {
-        log.info("[MqPublisherApp] start");
-        publishMessagesInBatch();
-        log.info("[MqPublisherApp] finish");
-    }
-
-    @SneakyThrows
-    static void publishMessagesInBatch() {
+    public static void publishMessagesInBatch(int messageCount, String fileJsonName) {
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
         try (Connection connection = mq.createMqConnection(); Channel ch = connection.createChannel()) {
 
@@ -62,9 +61,9 @@ public class MqPublisherApp {
             });
 
 
-            String strJson = AppUtils.readJson("k_json.json");
+            String strJson = AppUtils.readJson(fileJsonName);
             long start = System.nanoTime();
-            for (int i = 0; i < MESSAGE_COUNT; i++) {
+            for (int i = 0; i < messageCount; i++) {
                 outstandingConfirms.put(ch.getNextPublishSeqNo(), strJson);
                 ch.basicPublish("", queueName, null, strJson.getBytes(StandardCharsets.UTF_8));
             }
@@ -75,7 +74,7 @@ public class MqPublisherApp {
             }
 
             long end = System.nanoTime();
-            String msq = String.format("Published %,d messages in batch in %,d ms%n", MESSAGE_COUNT, Duration.ofNanos(end - start).toMillis());
+            String msq = String.format("Published %,d messages in batch in %,d ms%n", messageCount, Duration.ofNanos(end - start).toMillis());
             log.info(msq);
         }
     }

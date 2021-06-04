@@ -74,4 +74,8 @@ public class RabbitMqConfig {
     public boolean getOutExchangeDurable() {
         return Boolean.valueOf(prop.getProperty("mq.out_exchange.durable"));
     }
+
+    public String getShovelName() {
+        return prop.getProperty("mq.out_shovel.name");
+    }
 }
