@@ -11,12 +11,14 @@ import java.util.concurrent.ConcurrentNavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.function.BooleanSupplier;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * Отправка тестового json в очередь
  */
 @Slf4j
+@UtilityClass
 public class MqMessageSendTester {
 
     /**
@@ -69,7 +71,7 @@ public class MqMessageSendTester {
             }
 
 
-            if (!waitUntil(Duration.ofSeconds(60), () -> outstandingConfirms.isEmpty())) {
+            if (!waitUntil(Duration.ofSeconds(60), outstandingConfirms::isEmpty)) {
                 throw new IllegalStateException("All messages could not be confirmed in 60 seconds");
             }
 

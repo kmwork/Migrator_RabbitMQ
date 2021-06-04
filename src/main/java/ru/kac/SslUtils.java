@@ -15,10 +15,12 @@ import java.util.regex.Pattern;
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
 @Slf4j
+@UtilityClass
 public class SslUtils {
 
     private static final String KEY_PASSWORD = "12345678";
@@ -33,9 +35,7 @@ public class SslUtils {
         String pem = IOUtils.resourceToString(fileResourceName, StandardCharsets.UTF_8);
         Pattern parse = Pattern.compile("(?m)(?s)^---*BEGIN ([^-]+)---*$([^-]+)^---*END[^-]+-+$");
         Matcher m = parse.matcher(pem);
-        CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         Base64.Decoder decoder = Base64.getMimeDecoder();
-        List<Certificate> certList = new ArrayList<>(); // java.security.cert.Certificate
 
         PrivateKey privateKey = null;
 
@@ -64,7 +64,6 @@ public class SslUtils {
 
     public static SSLContext createSslContext() throws Exception {
 
-        CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         List<Certificate> certList = new ArrayList<>();
 
         addCert(certList, "client_certificate.pem");
@@ -100,7 +99,7 @@ public class SslUtils {
     }
 
 
-    private static PrivateKey getPrimaryKey(String pathToPKCS12File, String keyPassword) throws Exception {
+    private static PrivateKey getPrimaryKey(String pathToPKCS12File, String keyPassword) {
         try {
             byte[] keyAsBytes = IOUtils.resourceToByteArray(pathToPKCS12File);
             KeyStore ks = KeyStore.getInstance("PKCS12");

@@ -73,8 +73,9 @@ public class RabbitMqConfig {
 
     public Map<String, Object> getMqArguments() {
         Map<String, Object> arguments = new HashMap<>();
-        if (prop.getProperty("mq.xMaxLength") != null && !prop.getProperty("mq.xMaxLength").isBlank()) {
-            arguments.put("x-max-length", Integer.valueOf(prop.getProperty("mq.xMaxLength")));
+        String maxLen = prop.getProperty("mq.xMaxLength");
+        if (maxLen != null && !maxLen.isBlank()) {
+            arguments.put("x-max-length", Integer.valueOf(maxLen));
         }
 
         arguments.put("reject-publish", prop.getProperty("mq.rejectPublish"));

@@ -17,7 +17,7 @@ public class RegistrationQueueApp {
             String queueName = mq.getQueue();
             channel.queueBind(queueName, mq.getOutExchange(), "info");
 
-            System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+            log.debug(" [*] Waiting for messages. To exit press CTRL+C");
 
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
                 String message = new String(delivery.getBody(), "UTF-8");

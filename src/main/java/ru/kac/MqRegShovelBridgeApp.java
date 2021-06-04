@@ -19,7 +19,6 @@ public class MqRegShovelBridgeApp {
         Client c = RestAccess.mqRestClient();
         List<ShovelStatus> status = c.getShovelsStatus(mq.getMqVirtualHost());
         log.info("[MqRegShovelApp] status of shovel = " + status);
-        //if (status.size() == 0) {
         ShovelInfo queueInfo = new ShovelInfo();
         ShovelInfo exchangeInfo = new ShovelInfo();
         exchangeInfo.setName(mq.getShovelExchangeName());
@@ -50,7 +49,6 @@ public class MqRegShovelBridgeApp {
         c.declareShovel(mq.getMqVirtualHost(), queueInfo);
         c.declareShovel(mq.getMqVirtualHost(), exchangeInfo);
 
-        //}
         log.info("[MqRegShovelApp] **************** end ****************");
     }
 }

@@ -3,7 +3,9 @@ package ru.kac;
 import com.rabbitmq.http.client.Client;
 import com.rabbitmq.http.client.ClientParameters;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class RestAccess {
 
     @SneakyThrows
