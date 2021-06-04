@@ -1,5 +1,5 @@
 #!/bin/sh
-#LOCAL_VHOST=vhost_ch
+LOCAL_VHOST=vhost_ch
 LOCAL_USER=for_ch_root
 LOCAL_PASSORD=1
 LOCAL_MQ_HOST=localhost
@@ -53,7 +53,7 @@ JSON_VAR='{
   "dest-protocol": "amqp091",
   "ack-mode": "on-confirm",
   "src-delete-after": "never",
-  "src-uri": "amqps://'$LOCAL_MQ_HOST':'$LOCAL_MQ_PORT'?cacertfile='$local_cacertfile'&certfile='$local_certfile'&keyfile='$local_keyfile'&password='$local_password'&'$local_options'",
+  "src-uri": "amqps://'$LOCAL_MQ_HOST':'$LOCAL_MQ_PORT'/'$LOCAL_VHOST'?cacertfile='$local_cacertfile'&certfile='$local_certfile'&keyfile='$local_keyfile'&password='$local_password'&'$local_options'",
   "src-queue": "'"$LOCAL_MQ_QUEUE"'",
   "dest-uri": "amqp://'$EXTERNAL_USER':'$EXTERNAL_PASSORD'@'$EXTERNAL_MQ_HOST':'$EXTERNAL_MQ_PORT'/'$EXTERNAL_VHOST'",
   "dest-queue": "'"$EXTERNAL_MQ_QUEUE"'"
