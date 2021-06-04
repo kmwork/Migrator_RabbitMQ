@@ -20,7 +20,7 @@
       https://qligent.atlassian.net/browse/ITX2-289
     и 
       https://qligent.atlassian.net/browse/ITX2-288
-    стальные классы для нужд разработки
+    остальные классы для нужд разработки
     
 # Как настроить руками shovel тут написано 
 ## https://sleeplessbeastie.eu/2020/04/15/how-to-move-messages-to-different-rabbitmq-node/ 
