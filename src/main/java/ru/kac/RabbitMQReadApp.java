@@ -16,11 +16,11 @@ public class RabbitMQReadApp {
 
     @SneakyThrows
     public void run() {
-        try (Connection connection = MqUtils.createMqConnection(); Channel channel = connection.createChannel()) {
-
-            String queue = MqUtils.getQueue();
-            Map<String, Object> arguments = MqUtils.getMqArguments();
-            channel.queueDeclare(queue, MqUtils.getOutExchangeDurable(), false, false, arguments);
+        RabbitMqConfig mq = RabbitMqConfig.getInstance();
+        try (Connection connection = mq.createMqConnection(); Channel channel = connection.createChannel()) {
+            String queue = mq.getQueue();
+            Map<String, Object> arguments = mq.getMqArguments();
+            channel.queueDeclare(queue, mq.getOutExchangeDurable(), false, false, arguments);
 
 
             log.info(" [*] Waiting for messages. To exit press CTRL+C");

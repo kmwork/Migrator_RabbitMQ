@@ -28,12 +28,13 @@ public class MqPublisherApp {
 
     @SneakyThrows
     static void publishMessagesInBatch() {
-        try (Connection connection = MqUtils.createMqConnection(); Channel ch = connection.createChannel()) {
+        RabbitMqConfig mq = RabbitMqConfig.getInstance();
+        try (Connection connection = mq.createMqConnection(); Channel ch = connection.createChannel()) {
 
-            ch.exchangeDeclare(MqUtils.getOutExchange(), BuiltinExchangeType.FANOUT, MqUtils.getOutExchangeDurable());
-            String queueName = MqUtils.getQueue();
-            Map<String, Object> arguments = MqUtils.getMqArguments();
-            ch.queueDeclare(queueName, MqUtils.getOutExchangeDurable(), false, false, arguments);
+            ch.exchangeDeclare(mq.getOutExchange(), BuiltinExchangeType.FANOUT, mq.getOutExchangeDurable());
+            String queueName = mq.getQueue();
+            Map<String, Object> arguments = mq.getMqArguments();
+            ch.queueDeclare(queueName, mq.getOutExchangeDurable(), false, false, arguments);
 
             ch.confirmSelect();
 

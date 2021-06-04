@@ -9,10 +9,11 @@ public class DropExchangeApp {
 
     public static void main(String[] argv) throws Exception {
         log.info("[DropExchangeApp] start");
-        try (Connection connection = MqUtils.createMqConnection(); Channel channel = connection.createChannel()) {
-            channel.queueUnbind(MqUtils.getQueue(), MqUtils.getOutExchange(), "");
-            channel.exchangeDeleteNoWait(MqUtils.getOutExchange(), false);
-            channel.queueDeleteNoWait(MqUtils.getQueue(), false, false);
+        RabbitMqConfig mq = RabbitMqConfig.getInstance();
+        try (Connection connection = mq.createMqConnection(); Channel channel = connection.createChannel()) {
+            channel.queueUnbind(mq.getQueue(), mq.getOutExchange(), "");
+            channel.exchangeDeleteNoWait(mq.getOutExchange(), false);
+            channel.queueDeleteNoWait(mq.getQueue(), false, false);
         }
         log.info("[DropExchangeApp] finish");
     }

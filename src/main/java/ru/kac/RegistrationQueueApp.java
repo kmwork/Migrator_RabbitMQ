@@ -10,10 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 public class RegistrationQueueApp {
 
     public static void main(String[] argv) throws Exception {
-        try (Connection connection = MqUtils.createMqConnection(); Channel channel = connection.createChannel()) {
-            channel.exchangeDeclare(MqUtils.getOutExchange(), BuiltinExchangeType.FANOUT, MqUtils.getOutExchangeDurable());
-            String queueName = MqUtils.getQueue();
-            channel.queueBind(queueName, MqUtils.getOutExchange(), "info");
+        RabbitMqConfig mq = RabbitMqConfig.getInstance();
+
+        try (Connection connection = mq.createMqConnection(); Channel channel = connection.createChannel()) {
+            channel.exchangeDeclare(mq.getOutExchange(), BuiltinExchangeType.FANOUT, mq.getOutExchangeDurable());
+            String queueName = mq.getQueue();
+            channel.queueBind(queueName, mq.getOutExchange(), "info");
 
             System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
