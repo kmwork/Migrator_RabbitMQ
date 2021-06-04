@@ -11,12 +11,12 @@
 
 ### для демо:
 `
-    с опцией "-Dapp.profile=demo" (кавычки упустить) -- нужно достароить под нужный сервер 
+    с опцией "-Dapp.profile=demo" (кавычки упустить) -- нужно настроить под нужный сервер 
     (файл настроек тут - demo-profile/demo-rabbitmq.properties)
 
 # запуск
 `
-    класс ru.kac.ComplexRegistrationShovelWithExchangeApp -- создает объект для тикетов
+    класс ru.kac.ComplexRegistrationShovelWithExchangeApp -- создаёт объект для тикетов
       https://qligent.atlassian.net/browse/ITX2-289
     и 
       https://qligent.atlassian.net/browse/ITX2-288
@@ -35,7 +35,7 @@
 2. создаёт vhost если нужно
 3. чистит данные и объекты у mq.host 
 4. у mq.host создаёт объект
-5. создаёт SHOVEL (мост), перебирая старый мост
+5. создаёт SHOVEL (мост), перетирая старый мост
 
 ## Чем пожертвовал
 1. нет простоты настроек
