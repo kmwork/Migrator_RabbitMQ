@@ -5,7 +5,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Регистрация vhost +exchange + queue
+ * Удаление vhost
  */
 @Slf4j
 public class MqDropVHostApp {
