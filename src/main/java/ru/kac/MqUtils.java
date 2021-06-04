@@ -52,14 +52,25 @@ public class MqUtils {
 
     public static Map<String, Object> getMqArguments() {
         Map<String, Object> arguments = new HashMap<>();
-        arguments.put("x-max-length", Integer.valueOf(prop.getProperty("mq.xMaxLength")));
+        if (prop.getProperty("mq.xMaxLength") != null && !prop.getProperty("mq.xMaxLength").isBlank()) {
+            arguments.put("x-max-length", Integer.valueOf(prop.getProperty("mq.xMaxLength")));
+        }
+
         arguments.put("reject-publish", prop.getProperty("mq.rejectPublish"));
-        arguments.put("x-overflow", prop.getProperty("mq.xOverflow"));
+
+        String xOverflow = prop.getProperty("mq.xOverflow");
+        if (xOverflow != null && !xOverflow.isBlank()) {
+            arguments.put("x-overflow", xOverflow);
+        }
 
         return arguments;
     }
 
     public static String getOutExchange() {
         return prop.getProperty("mq.out_exchange");
+    }
+
+    public static boolean getOutExchangeDurable() {
+        return Boolean.valueOf(prop.getProperty("mq.out_exchange.durable"));
     }
 }

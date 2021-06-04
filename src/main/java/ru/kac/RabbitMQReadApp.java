@@ -20,7 +20,7 @@ public class RabbitMQReadApp {
 
             String queue = MqUtils.getQueue();
             Map<String, Object> arguments = MqUtils.getMqArguments();
-            channel.queueDeclare(queue, true, false, false, arguments);
+            channel.queueDeclare(queue, MqUtils.getOutExchangeDurable(), false, false, arguments);
 
 
             log.info(" [*] Waiting for messages. To exit press CTRL+C");

@@ -30,10 +30,10 @@ public class MqPublisherApp {
     static void publishMessagesInBatch() {
         try (Connection connection = MqUtils.createMqConnection(); Channel ch = connection.createChannel()) {
 
-            ch.exchangeDeclare(MqUtils.getOutExchange(), BuiltinExchangeType.FANOUT);
+            ch.exchangeDeclare(MqUtils.getOutExchange(), BuiltinExchangeType.FANOUT, MqUtils.getOutExchangeDurable());
             String queueName = MqUtils.getQueue();
             Map<String, Object> arguments = MqUtils.getMqArguments();
-            ch.queueDeclare(queueName, true, false, false, arguments);
+            ch.queueDeclare(queueName, MqUtils.getOutExchangeDurable(), false, false, arguments);
 
             ch.confirmSelect();
 

@@ -11,7 +11,7 @@ public class RegistrationQueueApp {
 
     public static void main(String[] argv) throws Exception {
         try (Connection connection = MqUtils.createMqConnection(); Channel channel = connection.createChannel()) {
-            channel.exchangeDeclare(MqUtils.getOutExchange(), BuiltinExchangeType.FANOUT);
+            channel.exchangeDeclare(MqUtils.getOutExchange(), BuiltinExchangeType.FANOUT, MqUtils.getOutExchangeDurable());
             String queueName = MqUtils.getQueue();
             channel.queueBind(queueName, MqUtils.getOutExchange(), "info");
 
