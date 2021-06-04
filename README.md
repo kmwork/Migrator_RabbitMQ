@@ -22,7 +22,7 @@
       https://qligent.atlassian.net/browse/ITX2-288
     стальные классы для нужд разработки
     
-# Rак настроить руками shovel тут написано 
+# Как настроить руками shovel тут написано 
 ## https://sleeplessbeastie.eu/2020/04/15/how-to-move-messages-to-different-rabbitmq-node/ 
 
 ## задействован код 2х API 
