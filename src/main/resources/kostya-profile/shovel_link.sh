@@ -13,7 +13,7 @@ local_keyfile="$local_ssl_dir/client_key.pem"
 local_options1="verify=verify_peer"
 local_options2="fail_if_no_peer_cert=true"
 local_options3="server_name_indication=disable"
-local_options4="auth_mechanism=external"
+local_options4="auth_mechanism=PLAIN"
 local_options5="depth=5"
 local_options="$local_options1&$local_options2&$local_options3&$local_options4&$local_options5"
 local_password="bunnies"
@@ -35,9 +35,22 @@ EXTERNAL_MQ_QUEUE=itx_ch_gm_queue_shovel
 #  "dest-queue": "'"$EXTERNAL_MQ_QUEUE"'"
 #}'
 
+#JSON_VAR='{
+#  "src-protocol": "amqp091",
+#  "dest-protocol": "amqp091",
+#  "ack-mode": "on-confirm",
+#  "src-delete-after": "never",
+#  "src-uri": "amqps://'$LOCAL_USER':'$LOCAL_PASSORD'@'$LOCAL_MQ_HOST':'$LOCAL_MQ_PORT'?cacertfile='$local_cacertfile'&certfile='$local_certfile'&keyfile='$local_keyfile'&password='$local_password'&'$local_options'",
+#  "src-queue": "'"$LOCAL_MQ_QUEUE"'",
+#  "dest-uri": "amqp://'$EXTERNAL_USER':'$EXTERNAL_PASSORD'@'$EXTERNAL_MQ_HOST':'$EXTERNAL_MQ_PORT'/'$EXTERNAL_VHOST'",
+#  "dest-queue": "'"$EXTERNAL_MQ_QUEUE"'"
+#}'
+
 JSON_VAR='{
   "src-protocol": "amqp091",
   "dest-protocol": "amqp091",
+  "ack-mode": "on-confirm",
+  "src-delete-after": "never",
   "src-uri": "amqps://'$LOCAL_MQ_HOST':'$LOCAL_MQ_PORT'?cacertfile='$local_cacertfile'&certfile='$local_certfile'&keyfile='$local_keyfile'&password='$local_password'&'$local_options'",
   "src-queue": "'"$LOCAL_MQ_QUEUE"'",
   "dest-uri": "amqp://'$EXTERNAL_USER':'$EXTERNAL_PASSORD'@'$EXTERNAL_MQ_HOST':'$EXTERNAL_MQ_PORT'/'$EXTERNAL_VHOST'",

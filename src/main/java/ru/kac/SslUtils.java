@@ -21,7 +21,7 @@ import org.apache.commons.io.IOUtils;
 @Slf4j
 public class SslUtils {
 
-    private static final String KEY_PASSWORD = "bunnies";
+    private static final String KEY_PASSWORD = "12345678";
     public static final String SSL_PROTOCOL = "TLSv1.2";
 
     static {
