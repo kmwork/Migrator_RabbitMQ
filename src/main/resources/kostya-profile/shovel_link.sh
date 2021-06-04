@@ -13,10 +13,10 @@ local_keyfile="$local_ssl_dir/client_key.pem"
 local_options1="verify=verify_peer"
 local_options2="fail_if_no_peer_cert=true"
 local_options3="server_name_indication=disable"
-local_options4="auth_mechanism=PLAIN"
+local_options4="auth_mechanism=EXTERNAL"
 local_options5="depth=5"
 local_options="$local_options1&$local_options2&$local_options3&$local_options4&$local_options5"
-local_password="bunnies"
+local_password="12345678"
 local_keyfile_p12="$local_ssl_dir/client_key.p12"
 
 EXTERNAL_VHOST=vhost_shovel
