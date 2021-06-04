@@ -22,9 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MqMessageSendTester {
 
     /**
-     * Отправить сообщения в очерень
+     * Отправить сообщения в очередь
      *
-     * @param messageCount количество сообщениц
+     * @param messageCount количество сообщений
      * @param fileJsonName файл json из ресурсов
      */
     @SneakyThrows
