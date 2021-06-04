@@ -12,13 +12,6 @@ public class ComplexRegistrationShovelWithExchangeApp {
 
   @SneakyThrows
   public static void main(String[] args) {
-    log.info("[MqCreateExchangeWithSendingWelcomeMessageApp] ******************* start ******************* ");
-    MqRegExchangeApp.main(args);
-    MqMessageSendTester.publishMessagesInBatch(MESSAGE_COUNT, JSON_FILE_NAME);
-    log.info("[MqCreateExchangeWithSendingWelcomeMessageApp] *******************  finish ******************* ");
-  }
-
-  public static void main(String[] args) {
     log.info("[ComplexRegistrationShovelWithExchangeApp] **************** start ****************");
 
     /* ------DEL------- */
@@ -30,12 +23,12 @@ public class ComplexRegistrationShovelWithExchangeApp {
     /* ------REG------- */
     log.info("[ComplexRegistrationShovelWithExchangeApp] start: new registration");
     MqRegExchangeApp.main(args);
-    MqMessageSendTester.publishMessagesInBatch(MESSAGE_COUNT, JSON_FILE_NAME);
+    MqRegShovelApp.main(args);
     log.info("[ComplexRegistrationShovelWithExchangeApp] end: new registration");
     /* -----END:REG----- */
 
     /* ------TESING------- */
-    MqCreateShovel.main(args);
+    MqMessageSendTester.publishMessagesInBatch(MESSAGE_COUNT, JSON_FILE_NAME);
     /* ------END: TESING------- */
     log.info("[ComplexRegistrationShovelWithExchangeApp] **************** end ****************");
   }

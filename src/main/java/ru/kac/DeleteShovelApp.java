@@ -10,13 +10,16 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DeleteShovelApp {
-  public static void main(String[] args) {
-    log.info("[DeleteShovelApp] **************** start ****************");
-    RabbitMqConfig mq = RabbitMqConfig.getInstance();
-    Client c = ShovelUtils.shovelClient();
-    List<ShovelStatus> status = c.getShovelsStatus(mq.getMqVirtualHost());
-    log.info("[DeleteShovelApp] status of shovel = " + status);
-    c.deleteShovel(mq.getMqVirtualHost(), mq.getShovelName());
-    log.info("[DeleteShovelApp] **************** end ****************");
-  }
+    public static void main(String[] args) {
+        log.info("[DeleteShovelApp] **************** start ****************");
+        RabbitMqConfig mq = RabbitMqConfig.getInstance();
+        Client c = ShovelUtils.shovelClient();
+        List<ShovelStatus> status = c.getShovelsStatus(mq.getMqVirtualHost());
+        log.info("[DeleteShovelApp] status of shovel = " + status);
+        if (status.size() > 0) {
+            c.deleteShovel(mq.getMqVirtualHost(), mq.getShovelQueueName());
+            c.deleteShovel(mq.getMqVirtualHost(), mq.getShovelExchangeName());
+        }
+        log.info("[DeleteShovelApp] **************** end ****************");
+    }
 }

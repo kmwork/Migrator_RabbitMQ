@@ -22,6 +22,19 @@ public class RabbitMqConfig {
     private final String mqUserName = prop.getProperty("mq.username");
     private final String mqPassword = prop.getProperty("mq.password");
     private final String mqManagementUrl = prop.getProperty("mq.management.url");
+
+    private final String shovelSrcUri = prop.getProperty("shovel.src-uri");
+    private final String shovelDestUri = prop.getProperty("shovel.dest-uri");
+
+
+    private final Integer shovelReconnectDelay = Integer.valueOf(prop.getProperty("shovel.reconnect-delay"));
+    private final Boolean shovelAddForwardHeaders = Boolean.valueOf(prop.getProperty("shovel.add-forward-headers"));
+
+    private final String shovelDestQueue = prop.getProperty("shovel.dest-queue");
+    private final String shovelDestExchange = prop.getProperty("shovel.dest-exchange");
+
+    private final String shovelExchangeName = prop.getProperty("shovel.exchange.name");
+    private final String shovelQueueName = prop.getProperty("shovel.queue.name");
     @Getter
     private final static RabbitMqConfig instance = new RabbitMqConfig();
 
@@ -75,7 +88,4 @@ public class RabbitMqConfig {
         return Boolean.valueOf(prop.getProperty("mq.out_exchange.durable"));
     }
 
-    public String getShovelName() {
-        return prop.getProperty("mq.out_shovel.name");
-    }
 }
