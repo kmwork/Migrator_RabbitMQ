@@ -1,10 +1,10 @@
 #!/bin/sh
-LOCAL_VHOST=vhost_ch
-LOCAL_USER=for_ch_root
-LOCAL_PASSORD=1
-LOCAL_MQ_HOST=localhost
-LOCAL_MQ_PORT=5671
-LOCAL_MQ_QUEUE=itx_ch_gm_queue_shovel
+LOCAL_VHOST="vhost_ch"
+LOCAL_USER="for_ch_root"
+LOCAL_PASSORD="1"
+LOCAL_MQ_HOST="localhost"
+LOCAL_MQ_PORT="5671"
+LOCAL_MQ_QUEUE="itx_ch_gm_queue_shovel"
 
 local_ssl_dir="/home/papa/work_kac/kFly/src/main/resources/rabbitmq_keys"
 local_cacertfile="$local_ssl_dir/ca_certificate.pem"
@@ -21,12 +21,12 @@ local_options="$local_options1&$local_options2&$local_options3&$local_options4&$
 local_password="12345678"
 local_keyfile_p12="$local_ssl_dir/client_key.p12"
 
-EXTERNAL_VHOST=vhost_shovel
-EXTERNAL_USER=shovel_user
-EXTERNAL_PASSORD=1
-EXTERNAL_MQ_HOST=192.168.1.45
-EXTERNAL_MQ_PORT=5672
-EXTERNAL_MQ_QUEUE=itx_ch_gm_queue_shovel
+EXTERNAL_VHOST="vhost_shovel"
+EXTERNAL_USER="shovel_user"
+EXTERNAL_PASSORD="1"
+EXTERNAL_MQ_HOST="192.168.1.45"
+EXTERNAL_MQ_PORT="5672"
+EXTERNAL_MQ_QUEUE="itx_ch_gm_queue_shovel"
 
 
 JSON_VAR='{
