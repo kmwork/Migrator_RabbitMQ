@@ -17,8 +17,8 @@ public class DeleteShovelApp {
         List<ShovelStatus> status = c.getShovelsStatus(mq.getMqVirtualHost());
         log.info("[DeleteShovelApp] status of shovel = " + status);
         if (status != null && status.size() > 0) {
-            c.deleteShovel(mq.getMqVirtualHost(), mq.getShovelQueueName());
-            c.deleteShovel(mq.getMqVirtualHost(), mq.getShovelExchangeName());
+            c.deleteShovel(mq.getShovelVirtualHost(), mq.getShovelQueueName());
+            c.deleteShovel(mq.getShovelVirtualHost(), mq.getShovelExchangeName());
         }
         log.info("[DeleteShovelApp] **************** end ****************");
     }
