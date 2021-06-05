@@ -1,4 +1,4 @@
-package ru.kac;
+package ru.netris.itx2.libraries.rabbitmq;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -16,7 +16,7 @@
 
 # запуск
 `
-    класс ru.kac.ComplexRegistrationShovelWithExchangeApp -- создаёт объект для тикетов
+    класс ComplexRegistrationShovelWithExchangeApp -- создаёт объект для тикетов
       https://qligent.atlassian.net/browse/ITX2-289
     и 
       https://qligent.atlassian.net/browse/ITX2-288

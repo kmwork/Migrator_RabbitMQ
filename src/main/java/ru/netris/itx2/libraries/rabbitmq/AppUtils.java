@@ -1,4 +1,4 @@
-package ru.kac;
+package ru.netris.itx2.libraries.rabbitmq;
 
 import java.net.URL;
 import java.nio.charset.StandardCharsets;

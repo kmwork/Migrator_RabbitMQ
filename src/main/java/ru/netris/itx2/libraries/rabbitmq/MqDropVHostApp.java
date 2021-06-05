@@ -1,4 +1,4 @@
-package ru.kac;
+package ru.netris.itx2.libraries.rabbitmq;
 
 import com.rabbitmq.http.client.Client;
 import lombok.SneakyThrows;

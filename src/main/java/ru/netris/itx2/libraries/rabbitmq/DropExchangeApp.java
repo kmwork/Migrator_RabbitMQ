@@ -1,4 +1,4 @@
-package ru.kac;
+package ru.netris.itx2.libraries.rabbitmq;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
