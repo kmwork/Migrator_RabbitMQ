@@ -21,7 +21,7 @@ public class DeleteShovelApp {
     private static void delBridge(Client c, String vhost, String shovelOnQueue, String shovelOnExchange) {
         List<ShovelStatus> status = c.getShovelsStatus(vhost);
         log.info("[DeleteShovelApp] status of shovel = " + status);
-        if (status != null && status.size() > 0) {
+        if (status != null && !status.isEmpty()) {
             c.deleteShovel(vhost, shovelOnQueue);
             c.deleteShovel(vhost, shovelOnExchange);
         }

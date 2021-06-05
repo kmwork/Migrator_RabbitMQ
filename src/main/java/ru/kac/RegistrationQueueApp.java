@@ -4,6 +4,7 @@ import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.DeliverCallback;
+import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,7 +21,7 @@ public class RegistrationQueueApp {
             log.debug(" [*] Waiting for messages. To exit press CTRL+C");
 
             DeliverCallback deliverCallback = (consumerTag, delivery) -> {
-                String message = new String(delivery.getBody(), "UTF-8");
+                String message = new String(delivery.getBody(), StandardCharsets.UTF_8);
                 log.info(" [x] Received '" + delivery.getEnvelope().getRoutingKey() + "':'" + message + "'");
             };
             channel.basicConsume(queueName, true, deliverCallback, consumerTag -> {

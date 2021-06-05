@@ -16,8 +16,8 @@ public class RabbitMqConfig {
     private final Properties prop = AppUtils.loadProperties("rabbitmq.properties");
 
     private final String mqHost = prop.getProperty("mq.host");
-    private final int mqPort = Integer.valueOf(prop.getProperty("mq.port"));
-    private final boolean isSSL = Boolean.valueOf(prop.getProperty("mq.isSSL"));
+    private final int mqPort = Integer.parseInt(prop.getProperty("mq.port"));
+    private final boolean isSSL = Boolean.parseBoolean(prop.getProperty("mq.isSSL"));
     private final String mqVirtualHost = prop.getProperty("mq.virtualHost");
     private final String mqUserName = prop.getProperty("mq.username");
     private final String mqPassword = prop.getProperty("mq.password");
@@ -37,6 +37,7 @@ public class RabbitMqConfig {
 
     private final String shovelForExchangeName = prop.getProperty("shovel.for-exchange.name");
     private final String shovelForQueueName = prop.getProperty("shovel.for-queue.name");
+
     @Getter
     private final static RabbitMqConfig instance = new RabbitMqConfig();
 

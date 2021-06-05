@@ -13,13 +13,12 @@ public class RestAccess {
 
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
 
-        Client c = new Client(
+        return new Client(
                 new ClientParameters()
                         .url(mq.getMqManagementUrl())
                         .username(mq.getMqUserName())
                         .password(mq.getMqPassword())
         );
-        return c;
     }
 
     @SneakyThrows
@@ -27,13 +26,12 @@ public class RestAccess {
 
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
 
-        Client c = new Client(
+        return new Client(
                 new ClientParameters()
                         .url(mq.getShovelManagementUrl())
                         .username(mq.getShovelUserName())
                         .password(mq.getShovelPassword())
         );
-        return c;
     }
 }
 
