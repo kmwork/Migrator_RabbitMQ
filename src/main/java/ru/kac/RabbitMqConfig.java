@@ -35,8 +35,8 @@ public class RabbitMqConfig {
     private final String shovelDestQueue = prop.getProperty("shovel.dest-queue");
     private final String shovelDestExchange = prop.getProperty("shovel.dest-exchange");
 
-    private final String shovelExchangeName = prop.getProperty("shovel.exchange.name");
-    private final String shovelQueueName = prop.getProperty("shovel.queue.name");
+    private final String shovelForExchangeName = prop.getProperty("shovel.for-exchange.name");
+    private final String shovelForQueueName = prop.getProperty("shovel.for-queue.name");
     @Getter
     private final static RabbitMqConfig instance = new RabbitMqConfig();
 

@@ -21,8 +21,8 @@ public class MqRegShovelBridgeApp {
         log.info("[MqRegShovelApp] status of shovel = " + status);
         ShovelInfo queueInfo = new ShovelInfo();
         ShovelInfo exchangeInfo = new ShovelInfo();
-        exchangeInfo.setName(mq.getShovelExchangeName());
-        queueInfo.setName(mq.getShovelQueueName());
+        exchangeInfo.setName(mq.getShovelForExchangeName());
+        queueInfo.setName(mq.getShovelForQueueName());
 
         exchangeInfo.setVirtualHost(mq.getMqVirtualHost());
         queueInfo.setVirtualHost(mq.getMqVirtualHost());

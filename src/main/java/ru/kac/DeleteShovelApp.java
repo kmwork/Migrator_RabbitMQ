@@ -13,13 +13,17 @@ public class DeleteShovelApp {
     public static void main(String[] args) {
         log.info("[DeleteShovelApp] **************** start ****************");
         RabbitMqConfig mq = RabbitMqConfig.getInstance();
-        Client c = RestAccess.mqRestClient();
-        List<ShovelStatus> status = c.getShovelsStatus(mq.getMqVirtualHost());
+        Client mqClient = RestAccess.mqRestClient();
+        delBridge(mqClient, mq.getMqVirtualHost(), mq.getShovelForQueueName(), mq.getShovelForExchangeName());
+        log.info("[DeleteShovelApp] **************** end ****************");
+    }
+
+    private static void delBridge(Client c, String vhost, String shovelOnQueue, String shovelOnExchange) {
+        List<ShovelStatus> status = c.getShovelsStatus(vhost);
         log.info("[DeleteShovelApp] status of shovel = " + status);
         if (status != null && status.size() > 0) {
-            c.deleteShovel(mq.getShovelVirtualHost(), mq.getShovelQueueName());
-            c.deleteShovel(mq.getShovelVirtualHost(), mq.getShovelExchangeName());
+            c.deleteShovel(vhost, shovelOnQueue);
+            c.deleteShovel(vhost, shovelOnExchange);
         }
-        log.info("[DeleteShovelApp] **************** end ****************");
     }
 }
