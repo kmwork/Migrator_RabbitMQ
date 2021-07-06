@@ -1,6 +1,6 @@
 # kac-rabbitmq-installer-lm-gm
 
-# Мигратор для RabbitMQ (для ITX2)
+# Мигратор для RabbitMQ (проба)
 
 ## локальный запуск
 `
@@ -16,11 +16,9 @@
 
 # запуск
 `
-    класс ComplexRegistrationShovelWithExchangeApp -- создаёт объект для тикетов
-      https://qligent.atlassian.net/browse/ITX2-289
-    и 
-      https://qligent.atlassian.net/browse/ITX2-288
+    класс ComplexRegistrationShovelWithExchangeApp -- создаёт объект для связи RabbitMQ
     остальные классы для нужд разработки
+    
     
 # Как настроить руками shovel тут написано 
 ## https://sleeplessbeastie.eu/2020/04/15/how-to-move-messages-to-different-rabbitmq-node/ 
@@ -44,5 +42,8 @@
 
 # Где смотреть работу 
 на серверах Rabbit LM и GM
-## LM = 192.168.195.92 
-## GM =  192.168.195.102
+## LM = 192.168.1.2  (нужно изменить в настройках)
+## GM =  192.168.1.3 (тут тоже изменить в настройках)
+
+
+## пароли и IPv4 и ключи заменены на не настоящие - для демо

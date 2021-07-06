@@ -1,5 +1,5 @@
 #!/bin/sh
-local_ssl_dir="/home/papa/work_kac/kFly/src/main/resources/rabbitmq_keys"
+local_ssl_dir="/home/kmwork/work_kac/kFly/src/main/resources/rabbitmq_keys"
 local_cacertfile="$local_ssl_dir/ca_certificate.pem"
 local_certfile="$local_ssl_dir/client_certificate.pem"
 local_keyfile="$local_ssl_dir/client_key.pem"

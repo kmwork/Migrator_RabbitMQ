@@ -1,4 +1,4 @@
-package ru.netris.itx2.libraries.rabbitmq;
+package ru.kmwork.rabbitmq;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;

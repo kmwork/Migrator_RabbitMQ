@@ -1,4 +1,4 @@
-package ru.netris.itx2.libraries.rabbitmq;
+package ru.kmwork.rabbitmq;
 
 import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
