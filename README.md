@@ -1,4 +1,4 @@
-# kac-rabbitmq-installer-lm-gm
+# rabbitmq-installer-lm-gm
 
 # Мигратор для RabbitMQ (проба)
 
